@@ -49,6 +49,15 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+
+    //fun POST
+    
+    
+    // func retweet(id: String, completion:(error: NSError?)->()){}
+    
+    
+    
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil{
             return tweets.count
@@ -81,4 +90,23 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
 
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let data = tweets! [indexPath!.row]
+        
+        let detailTweetViewController = segue.destinationViewController as! DetailTweetViewController
+        
+        detailTweetViewController.data = data
+        
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+    }
+    
+    
 }
