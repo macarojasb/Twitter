@@ -10,6 +10,9 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    
+    var data: Tweet!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -14,6 +14,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     var tweet: Tweet!
     
     @IBOutlet weak var tableView: UITableView!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,15 +50,6 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-
-    //fun POST
-    
-    
-    // func retweet(id: String, completion:(error: NSError?)->()){}
-    
-    
-    
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil{
             return tweets.count
@@ -90,6 +82,42 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
 
+    @IBAction func favoriteButton(sender: AnyObject) {
+        
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! TweetTableViewCell
+        
+        let indexPath = tableView.indexPathForCell(cell)
+        let tweet = tweets![indexPath!.row]
+        
+        TwitterClient.sharedInstance.favorite(tweet.tweetID!, favorite: true)
+        tweet.favoritesCount = tweet.favoritesCount + 1
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func retweetButton(sender: AnyObject) {
+        
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! TweetTableViewCell
+        
+        let indexPath = tableView.indexPathForCell(cell)
+        let tweet = tweets![indexPath!.row]
+        
+        TwitterClient.sharedInstance.retweet(tweet.tweetID!)
+        tweet.retweetCount = tweet.retweetCount + 1
+        self.tableView.reloadData()
+        
+    }
+    
+   // func profilePictureTap(sender: UITapGestureRecognizer) {
+       
+       // var point = sender.locationInView(view)
+        
+        // User tapped at the point above. Do something with that if you want.
+    //}
+    
     
     // MARK: - Navigation
     
@@ -103,6 +131,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         let detailTweetViewController = segue.destinationViewController as! DetailTweetViewController
         
         detailTweetViewController.data = data
+  
+        
         
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
